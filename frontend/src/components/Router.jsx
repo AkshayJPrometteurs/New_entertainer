@@ -14,14 +14,11 @@ import CategoryList from '../pages/Admin/Category/CategoryList';
 import CategoryMaster from '../pages/Admin/Category/CategoryMaster';
 import VideoList from '../pages/Admin/Videos/VideoList';
 import VideoMaster from '../pages/Admin/Videos/VideoMaster';
-import Sports from '../pages/User/Sports';
 import ContentwiseVideoLists from '../pages/User/ContentwiseVideoLists';
 import SubCategoryList from '../pages/Admin/SubCategory/SubCategoryList';
 import SubCategoryMaster from '../pages/Admin/SubCategory/SubCategoryMaster';
-import Movies from '../pages/User/Movies';
 import SingleVideoDetailView from '../pages/User/SingleVideoDetailView';
 import PlanUpgrade from '../pages/User/profiles/PlanUpgrade';
-import TVShows from '../pages/User/TVShows';
 import LanguageList from '../pages/Admin/Language/LanguageList';
 import LanguageMaster from '../pages/Admin/Language/LanguageMaster';
 import TVChannelList from '../pages/Admin/TVChannels/TVChannelList';
@@ -29,10 +26,10 @@ import TVChannelMaster from '../pages/Admin/TVChannels/TVChannelMaster';
 import LanguagesVideos from '../pages/User/LanguagesVideos';
 import TVChannelVideos from '../pages/User/TVChannelVideos';
 import TVShowsContentList from '../pages/User/TVShowsContentList';
-import SeasonsTVShows from '../pages/User/SeasonsTVShows';
-import WebSeries from '../pages/User/WebSeries';
+import SeasonsVideos from '../pages/User/SeasonsVideos';
 import AllShowsList from '../pages/Admin/AllShows/AllShowsList';
 import AllShowsMaster from '../pages/Admin/AllShows/AllShowsMaster';
+import CategoryVideos from '../pages/User/CategoryVideos';
 
 const Router = createBrowserRouter([
     // USER SIDE
@@ -49,17 +46,14 @@ const Router = createBrowserRouter([
         children : [
             { path : '/', element : <MainPage/> },
             { path : '/profile', element : <Profile/> },
-            { path : '/tv-shows', element : <TVShows/> },
-            { path : '/movies', element : <Movies/> },
-            { path : '/sports', element : <Sports/> },
-            { path : '/web-series', element : <WebSeries/> },
+            { path : '/:category', element : <CategoryVideos/> },
             { path : '/:category/:subCategorySlug', element : <ContentwiseVideoLists/> },
             { path : '/:category/:subCategorySlug/:contentSlug', element : <SingleVideoDetailView/> },
             { path : '/plan-upgrade', element : <PlanUpgrade/> },
             { path : '/:category/language/:language', element : <LanguagesVideos/> },
             { path : '/:category/tv-channel/:tvChannel', element : <TVChannelVideos/> },
             { path : '/:category/videos/:tvShows', element : <TVShowsContentList/> },
-            { path : '/:category/:tvShows/season/:season', element : <SeasonsTVShows/> },
+            { path : '/:category/:tvShows/season/:season', element : <SeasonsVideos/> },
             { path : '/test', element : <Test/> },
         ]
     },

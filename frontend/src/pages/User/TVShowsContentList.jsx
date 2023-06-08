@@ -51,7 +51,7 @@ const TVShowsContentList = () => {
                                         )}
                                     </div>
                                 </div>
-                                <div className='grid grid-cols-2 md:grid-cols-6 gap-4 my-3.5 bg-white p-2 rounded-md shadow-md'>
+                                <div className='grid grid-cols-2 md:grid-cols-6 gap-4 my-3.5 bg-white p-2 rounded-md shadow'>
                                     {seasons.map((data,id)=>{
                                         return(<Fragment key={id}>
                                             <Link to={`/${category}/${tvShows}/season/${data.seasons}`}><Button variant="contained" fullWidth startIcon={<PlayCircle/>}>Season {data.seasons}</Button></Link>
@@ -59,7 +59,7 @@ const TVShowsContentList = () => {
                                     })}
                                 </div>
                                 {tvChannelVideo.length > 0 ? (
-                                    <div className='grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-6 bg-white p-3 rounded-md shadow-md'>
+                                    <div className='grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-6 rounded-md shadow-md'>
                                         {tvChannelVideo.map((data,id)=>{
                                             return(<Fragment key={id}>
                                                 <div className='hover:scale-105 hover:transition-all hover:delay-300 cursor-pointer border border-gray-300 hover:bg-primaryColor hover:text-white group rounded-md shadow-md bg-white'>

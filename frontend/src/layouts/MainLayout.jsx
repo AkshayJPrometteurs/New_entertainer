@@ -75,8 +75,8 @@ const MainLayout = () => {
                             })}
                             {(currentUser && currentUser.name) && (
                                 <Fragment>
-                                    <NavLink to={'/entertainer-exclusive'} className={({isActive})=>classNames(isActive ? 'bg-white text-primaryColor rounded-full group-hover:rounded-md' : 'text-white rounded-full', 'flex justify-center group-hover:justify-start items-center gap-3 py-1.5 px-1 text-sm')}>
-                                        <div className='px-2 font-bold py-0.5 rounded-full border-2 border-white'>E</div>
+                                    <NavLink to={'/entertainer-premium'} className={({isActive})=>classNames(isActive ? 'bg-white text-primaryColor rounded-full group-hover:rounded-md' : 'text-white rounded-full', 'flex justify-center group-hover:justify-start items-center gap-3 p-1 text-sm group')}>
+                                        <div className='px-2 font-bold py-0.5 rounded-full border-2 group:border-white'>E</div>
                                         <h1 className='hidden group-hover:block text-center -ml-6 w-full tracking-wider'>E-Premium</h1>
                                     </NavLink>
                                 

@@ -7,7 +7,6 @@ use App\Models\Admin\AllShowsDetails;
 use App\Models\Admin\Category;
 use App\Models\Admin\SubCategory;
 use App\Models\Admin\TVChannels;
-use App\Models\Admin\TVShows;
 use App\Models\Admin\VideoLanguages;
 use App\Models\Admin\Videos;
 use App\Models\User\Watchlist;
@@ -15,41 +14,41 @@ use App\Models\User\Watchlist;
 class UserController extends Controller
 {
     public function user_contentwise_video_list($category, $subCategorySlug){
-        if($category == 'tv-shows' || $category == 'web-series'){
+        if($category == 'movies' || $category == 'sports'){
             $videos = Videos::join('sub_categories','sub_categories.id','=','subcategory')
             ->join('categories','categories.id','sub_categories.category')
-            ->join('all_shows_details','all_shows_details.shows_slug','videos.tv_shows')
-            ->select('videos.*','sub_categories.sub_category_name','sub_categories.sub_category_slug','all_shows_details.shows_slug','all_shows_details.shows_image')
+            ->select('videos.*','sub_categories.sub_category_name','sub_categories.sub_category_slug')
             ->where('categories.category_slug', $category)
             ->where('sub_categories.sub_category_slug',$subCategorySlug)
-            ->where('all_shows_details.shows_type', $category)
             ->where('videos.status', 'active')
-            ->groupBy('videos.tv_shows')
             ->get();
             $trendingVideos = Videos::join('sub_categories','sub_categories.id','=','subcategory')
             ->join('categories','categories.id','sub_categories.category')
-            ->join('all_shows_details','all_shows_details.shows_slug','videos.tv_shows')
-            ->select('videos.*','sub_categories.sub_category_name','sub_categories.sub_category_slug','all_shows_details.shows_slug','all_shows_details.shows_image')
+            ->select('videos.*','sub_categories.sub_category_name','sub_categories.sub_category_slug')
             ->where('categories.category_slug', $category)
             ->where('videos.p_t_status', 'trending')
-            ->where('all_shows_details.shows_type', $category)
             ->where('videos.status', 'active')
-            ->groupBy('videos.tv_shows')
             ->get();
         }else{
             $videos = Videos::join('sub_categories','sub_categories.id','=','subcategory')
             ->join('categories','categories.id','sub_categories.category')
-            ->select('videos.*','sub_categories.sub_category_name','sub_categories.sub_category_slug')
+            ->join('all_shows_details','all_shows_details.shows_slug','videos.tv_shows')
+            ->select('videos.*','sub_categories.sub_category_name','sub_categories.sub_category_slug','all_shows_details.shows_slug','all_shows_details.shows_image')
             ->where('categories.category_slug', $category)
             ->where('sub_categories.sub_category_slug',$subCategorySlug)
+            ->where('all_shows_details.shows_type', $category)
             ->where('videos.status', 'active')
+            ->groupBy('videos.tv_shows')
             ->get();
             $trendingVideos = Videos::join('sub_categories','sub_categories.id','=','subcategory')
             ->join('categories','categories.id','sub_categories.category')
-            ->select('videos.*','sub_categories.sub_category_name','sub_categories.sub_category_slug')
+            ->join('all_shows_details','all_shows_details.shows_slug','videos.tv_shows')
+            ->select('videos.*','sub_categories.sub_category_name','sub_categories.sub_category_slug','all_shows_details.shows_slug','all_shows_details.shows_image')
             ->where('categories.category_slug', $category)
             ->where('videos.p_t_status', 'trending')
+            ->where('all_shows_details.shows_type', $category)
             ->where('videos.status', 'active')
+            ->groupBy('videos.tv_shows')
             ->get();
         }
         $relatedSubCategories = SubCategory::join('categories','categories.id','category')
@@ -57,7 +56,7 @@ class UserController extends Controller
         ->where('sub_categories.sub_category_slug', '!=', $subCategorySlug)
         ->get();
         $videoLanguages = VideoLanguages::all();
-        $tvChannels = TVChannels::all();
+        $tvChannels = TVChannels::where('tv_channel_slug','!=','entertainer-premium')->where('status','active')->get();
         $forTitle = SubCategory::join('categories','categories.id','category')
         ->where('categories.category_slug', $category)
         ->where('sub_categories.sub_category_slug', $subCategorySlug)
@@ -90,6 +89,85 @@ class UserController extends Controller
         ]);
     }
 
+    public function get_category_wise_data($category){
+        $categories = SubCategory::join('categories','categories.id','=','category')
+        ->select('sub_categories.*','categories.category_slug')
+        ->where('categories.category_slug', $category)
+        ->get();
+        $tvChannels = TVChannels::where('tv_channel_slug','!=','entertainer-premium')->where('status','active')->get();
+        $forTitle = Category::where('category_slug', $category)->first();
+        if($category == 'movies' || $category == 'sports'){
+            $latestVideos = Videos::join('categories','categories.id','=','category')
+            ->where('categories.category_slug', $category)
+            ->where('videos.status', 'active')
+            ->orderBy('videos.created_at', 'desc')
+            ->limit(10)
+            ->get();
+        }else{
+            $latestVideos = Videos::join('categories','categories.id','=','category')
+            ->join('all_shows_details','all_shows_details.shows_slug','videos.tv_shows')
+            ->select('videos.*','categories.category_name','categories.category_slug','all_shows_details.shows_slug','all_shows_details.shows_image')
+            ->where('categories.category_slug', $category)
+            ->where('videos.status', 'active')
+            ->orderBy('videos.created_at', 'desc')
+            ->groupBy('tv_shows')
+            ->limit(10)
+            ->get();
+        }
+        if($category == 'movies' || $category == 'sports'){
+            $popularVideos = Videos::join('categories','categories.id','=','category')
+            ->where('categories.category_slug', $category)
+            ->where('videos.p_t_status', 'popular')
+            ->where('videos.status', 'active')
+            ->orderBy('videos.created_at', 'desc')
+            ->limit(10)
+            ->get();
+        }else{
+            $popularVideos = Videos::join('categories','categories.id','=','category')
+            ->join('all_shows_details','all_shows_details.shows_slug','videos.tv_shows')
+            ->select('videos.*','categories.category_name','categories.category_slug','all_shows_details.shows_slug','all_shows_details.shows_image')
+            ->where('categories.category_slug', $category)
+            ->where('videos.p_t_status', 'popular')
+            ->where('videos.status', 'active')
+            ->orderBy('videos.created_at', 'desc')
+            ->groupBy('tv_shows')
+            ->limit(10)
+            ->get();
+        }
+        if($category == 'movies' || $category == 'sports'){
+            $trendingVideos = Videos::join('categories','categories.id','=','category')
+            ->where('categories.category_slug', $category)
+            ->where('videos.p_t_status', 'trending')
+            ->where('videos.status', 'active')
+            ->orderBy('videos.created_at', 'desc')
+            ->limit(10)
+            ->get();
+        }else{
+            $trendingVideos = Videos::join('categories','categories.id','=','category')
+            ->join('all_shows_details','all_shows_details.shows_slug','videos.tv_shows')
+            ->select('videos.*','categories.category_name','categories.category_slug','all_shows_details.shows_slug','all_shows_details.shows_image')
+            ->where('categories.category_slug', $category)
+            ->where('videos.p_t_status', 'trending')
+            ->where('videos.status', 'active')
+            ->orderBy('videos.created_at', 'desc')
+            ->groupBy('tv_shows')
+            ->limit(10)
+            ->get();
+        }
+        $response = [
+            'categories' => $categories,
+            'tvChannels' => $tvChannels,
+            'forTitle' => $forTitle,
+            'latestVideos' => $latestVideos,
+            'popularVideos' => $popularVideos,
+            'trendingVideos' => $trendingVideos,
+        ];
+        return response()->json([
+            'status' => 200,
+            'data' => $response
+        ]);
+    }
+    
     public function user_tv_shows_details($category){
         $categories = SubCategory::join('categories','categories.id','=','category')
         ->select('sub_categories.*','categories.category_slug')
@@ -258,7 +336,7 @@ class UserController extends Controller
         ->where('tv_channel', $tvChannel)
         ->groupBy('tv_shows')
         ->get();
-        $tvChannels = TVChannels::where('status','active')->get();
+        $tvChannels = TVChannels::where('tv_channel_slug','!=','entertainer-premium')->where('status','active')->get();
         return response()->json([
             'status' => 200,
             'videos' => $videos,
@@ -332,13 +410,9 @@ class UserController extends Controller
         ->select('categories.category_name','t_v_shows.tv_shows_name')
         ->where(['categories.category_slug' => $category, 't_v_shows.tv_shows_slug' => $tvShows])
         ->first();
-        $tvShows = TVShows::where('tv_shows_slug','!=','others')->where('status','active')->get();
-        $tvChannels = TVChannels::where('status','active')->get();
         return response()->json([
             'status' => 200,
             'videos' => $videos,
-            'tvChannels' => $tvChannels,
-            'tvShows' => $tvShows,
             'seasons' => $seasons,
             'forTitle' => $forTitle,
         ]);

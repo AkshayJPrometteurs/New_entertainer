@@ -36,7 +36,7 @@ const ContentwiseVideoLists = () => {
     return (
         <Fragment>
             {loader ? (<Loader/>) : (
-                <div className='px-5 py-3'>
+                <div className='px-5 py-4'>
                     <div className='flex flex-col-reverse md:flex-row gap-1 md:gap-6'>
                         <div className='w-full md:w-[78%]'>
                             <CustomDivider content={(forTitle && forTitle.category_name)+' - '+(forTitle && forTitle.sub_category_name)}/>
@@ -48,8 +48,8 @@ const ContentwiseVideoLists = () => {
                                                 {data.seasons === null ? (
                                                     <div className='hover:scale-105 hover:transition-all hover:delay-300 cursor-pointer border border-gray-300 hover:bg-primaryColor hover:text-white group rounded-md shadow-md bg-white'>
                                                         <div className='px-4 pt-2 pb-1'>
-                                                            <h1 className='font-bold text-center tracking-wider h-6 overflow-hidden'>{data.video_title}</h1>
-                                                            <div className='flex items-center justify-center w-full gap-3 my-2'>
+                                                            <h1 className='font-bold text-sm text-center tracking-wider h-6 overflow-hidden'>{data.video_title}</h1>
+                                                            <div className='flex items-center justify-center w-full gap-3 mt-1 mb-2'>
                                                                 <h1 className='text-xs px-2 uppercase text-black group-hover:bg-white whitespace-nowrap bg-gray-200 rounded-md py-1'>{data.duration}</h1>
                                                                 <h1 className='text-xs px-2 uppercase text-black group-hover:bg-white bg-gray-200 rounded-md py-1'>{data.language}</h1>
                                                             </div>
@@ -78,8 +78,8 @@ const ContentwiseVideoLists = () => {
                                                         {data.seasons === null ? (
                                                             <div className='hover:scale-105 hover:transition-all hover:delay-300 cursor-pointer border border-gray-300 hover:bg-primaryColor hover:text-white group rounded-md shadow-md bg-white'>
                                                                 <div className='px-4 pt-2 pb-1'>
-                                                                    <h1 className='font-bold text-center tracking-wider h-6 overflow-hidden'>{data.video_title}</h1>
-                                                                    <div className='flex items-center justify-center w-full gap-3 my-2'>
+                                                                    <h1 className='font-bold text-sm text-center tracking-wider h-6 overflow-hidden'>{data.video_title}</h1>
+                                                                    <div className='flex items-center justify-center w-full mt-1 gap-3 mb-2'>
                                                                         <h1 className='text-xs px-2 uppercase text-black group-hover:bg-white whitespace-nowrap bg-gray-200 rounded-md py-1'>{data.duration}</h1>
                                                                         <h1 className='text-xs px-2 uppercase text-black group-hover:bg-white bg-gray-200 rounded-md py-1'>{data.language}</h1>
                                                                     </div>
@@ -110,29 +110,23 @@ const ContentwiseVideoLists = () => {
                         </div>
                         <div className='w-full md:w-[22%]'>
                             <CustomDivider content={'Search '+(forTitle && forTitle.category_name)+' By'}/>
-                            <div className='flex flex-col gap-5 my-4'>
-                                <div className='bg-white rounded-md px-4 pb-4 pt-3'>
-                                    <h1 className='text-center font-bold tracking-wider mb-2 text-sm'>Categories</h1>
-                                    <Divider style={{ background : '#1a56db' }}/>
-                                    <div className='grid grid-cols-3 md:grid-cols-2 gap-3 mt-4'>
+                            <div className='flex flex-col gap-4 my-3'>
+                                <div className='bg-white rounded-md p-3'>
+                                    <h1 className='text-center font-bold tracking-wider uppercase mb-2 text-sm'>Categories</h1>
+                                    <div className='grid grid-cols-3 md:grid-cols-2 gap-3'>
                                         {realetdCategories.map((data, id)=>{
                                             return(<Fragment key={id}>
-                                                <Link to={`/${category}/${data.sub_category_slug}`} className='bg-white border border-gray-300 p-2 rounded-lg shadow-md hover:bg-primaryColor hover:border-none cursor-pointer hover:text-white uppercase tracking-widest text-xs text-center transition-all delay-200'>
-                                                    <h1>{data.sub_category_name}</h1>
-                                                </Link>
+                                                <Link to={`/${category}/${data.sub_category_slug}`} className='bg-white border border-gray-300 p-2 rounded-md shadow-md hover:bg-primaryColor hover:border-none cursor-pointer hover:text-white uppercase tracking-widest text-xs text-center transition-all delay-150 flex items-center justify-center'>{data.sub_category_name}</Link>
                                             </Fragment>)
                                         })}
                                     </div>
                                 </div>
                                 <div className='bg-white rounded-md px-4 pb-4 pt-3'>
-                                    <h1 className='text-center font-bold tracking-wider mb-2 text-sm'>Languages</h1>
-                                    <Divider style={{ background : '#1a56db' }}/>
-                                    <div className='grid grid-cols-3 md:grid-cols-2 gap-3 mt-4'>
+                                    <h1 className='text-center font-bold tracking-wider uppercase mb-2 text-sm'>Languages</h1>
+                                    <div className='grid grid-cols-3 md:grid-cols-2 gap-3'>
                                         {videoLanguages.map((data, id)=>{
                                             return(<Fragment key={id}>
-                                                <Link to={`/${category}/language/${data.languages_slug}`} className='bg-white border border-gray-300 p-2 rounded-lg shadow-md hover:bg-primaryColor hover:border-none cursor-pointer hover:text-white uppercase tracking-widest text-xs text-center transition-all delay-200'>
-                                                    <h1>{data.languages_name}</h1>
-                                                </Link>
+                                                <Link to={`/${category}/language/${data.languages_slug}`} className='bg-white border border-gray-300 p-2 rounded-md shadow-md hover:bg-primaryColor hover:border-none cursor-pointer hover:text-white uppercase tracking-widest text-xs text-center transition-all delay-150 flex items-center justify-center'>{data.languages_name}</Link>
                                             </Fragment>)
                                         })}
                                     </div>

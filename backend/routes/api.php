@@ -79,6 +79,8 @@ Route::controller(UserController::class)->group(function(){
     Route::get('/user_contentwise_video_list/{category}/{subCategorySlug}','user_contentwise_video_list');
     Route::get('/user_related_videos/{slug}/{contentSlug}','user_related_videos');
 
+    Route::get('/get_category_wise_data/{category}','get_category_wise_data');
+
     Route::get('/user_tv_shows_details/{category}','user_tv_shows_details');
     Route::get('/user_movies_details/{category}','user_movies_details');
     Route::get('/user_sports_details/{category}','user_sports_details');

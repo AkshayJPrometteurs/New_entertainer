@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import CustomDivider from '../../components/helpers/CustomDivider'
 import { useStateContext } from '../../contexts/ContextProvider'
 import AxiosClient from '../../components/AxiosClient'
-import { Divider, Typography } from '@mui/material'
+import { Typography } from '@mui/material'
 import Loader from '../../components/Loader'
 import { PlayCircle } from '@mui/icons-material'
 
@@ -30,7 +30,7 @@ const LanguagesVideos = () => {
     return (
         <Fragment>
             {loader ? (<Loader/>) : (
-                <div className='py-4 px-6'>
+                <div className='px-5 py-4'>
                     <div className='flex flex-col-reverse md:flex-row gap-2 md:gap-6'>
                         <div className='w-full md:w-[78%]'>
                             <CustomDivider content={(forTitle && forTitle.category_name)+' - '+language}/> 
@@ -72,16 +72,13 @@ const LanguagesVideos = () => {
                         </div>
                         <div className='w-full md:w-[22%]'>
                             <CustomDivider content={'Search '+(forTitle && forTitle.category_name)+' By'}/>
-                            <div className='bg-white rounded-md px-4 pb-4 pt-3 my-4'>
-                                <h1 className='text-center font-bold tracking-wider mb-2 text-sm'>Languages</h1>
-                                <Divider style={{ background : '#1a56db' }}/>
-                                <div className='grid grid-cols-3 md:grid-cols-2 gap-3 mt-4'>
+                            <div className='bg-white rounded-md p-3 my-4'>
+                                <h1 className='text-center font-bold tracking-wider mb-2 text-sm uppercase'>Languages</h1>
+                                <div className='grid grid-cols-3 md:grid-cols-2 gap-3'>
                                     {videoLanguages.map((data, id)=>{
                                         return(<Fragment key={id}>
                                             {language !== data.languages_slug && (
-                                                <Link to={`/${category}/language/${data.languages_slug}`} className={'border border-gray-300 p-2 rounded-lg shadow-md hover:bg-primaryColor hover:border-none cursor-pointer hover:text-white uppercase tracking-widest text-xs text-center transition-all delay-200 flex items-center justify-center '+(language === data.languages_slug ? 'bg-primaryColor text-white' : 'bg-white')}>
-                                                    <h1>{data.languages_name}</h1>
-                                                </Link>
+                                                <Link to={`/${category}/language/${data.languages_slug}`} className={'border border-gray-300 p-2 rounded-md shadow-md hover:bg-primaryColor hover:border-none cursor-pointer hover:text-white uppercase tracking-widest text-xs text-center transition-all delay-150 flex items-center justify-center '+(language === data.languages_slug ? 'bg-primaryColor text-white' : 'bg-white')}>{data.languages_name}</Link>
                                             )}
                                         </Fragment>)
                                     })}
